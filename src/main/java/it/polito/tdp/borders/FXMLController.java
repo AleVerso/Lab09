@@ -26,10 +26,22 @@ public class FXMLController {
     @FXML // fx:id="txtResult"
     private TextArea txtResult; // Value injected by FXMLLoader
 
-    @FXML
-    void doCalcolaConfini(ActionEvent event) {
+	@FXML
+	void doCalcolaConfini(ActionEvent event) {
 
-    }
+		int annoI;
+
+		try {
+			annoI = Integer.parseInt(this.txtAnno.getText());
+		} catch (NumberFormatException e) {
+			this.txtResult.setText("Inserisci un numero");
+			return;
+		}
+
+		this.model.createGraph(annoI);
+		this.txtResult.setText(this.model.getStampa());
+
+	}
 
     @FXML // This method is called by the FXMLLoader when initialization is complete
     void initialize() {
