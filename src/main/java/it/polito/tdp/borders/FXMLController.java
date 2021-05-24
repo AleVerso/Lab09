@@ -34,7 +34,12 @@ public class FXMLController {
 		try {
 			annoI = Integer.parseInt(this.txtAnno.getText());
 		} catch (NumberFormatException e) {
-			this.txtResult.setText("Inserisci un numero");
+			this.txtResult.setText("Inserisci un valore numerico");
+			return;
+		}
+		
+		if(annoI<1816 || annoI>2006) {
+			this.txtResult.setText("Inserisci un anno compreso tra 1816 e 2006");
 			return;
 		}
 

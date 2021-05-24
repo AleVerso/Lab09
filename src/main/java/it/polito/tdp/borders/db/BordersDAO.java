@@ -43,7 +43,7 @@ public class BordersDAO {
 	public List<Border> getCountryPairs(Map<Integer, Country> idMap, int anno) {
 
 		String sql = "SELECT co.state1no AS c1, co.state2no AS c2 " + "FROM contiguity co "
-				+ "WHERE co.year=? AND co.conttype=1";
+				+ "WHERE co.year<=? AND co.conttype=1";
 		List<Border> result = new LinkedList<>();
 
 		try {

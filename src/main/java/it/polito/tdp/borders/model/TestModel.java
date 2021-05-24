@@ -11,12 +11,13 @@ public class TestModel {
 		System.out.println("TestModel -- TODO");
 		
 		System.out.println("Creo il grafo relativo al 2000");
-		model.createGraph(1999);
+		model.createGraph(2000);
 		
 		List<Country> countries = model.getCountries();
 		System.out.format("Trovate %d nazioni\n", countries.size());
 
 		System.out.format("Numero componenti connesse: %d\n", model.getNumberOfConnectedComponents());
+		
 		
 //		Map<Country, Integer> stats = model.getCountryCounts();
 //		for (Country country : stats.keySet())

@@ -9,8 +9,10 @@ import java.util.Set;
 
 import org.jgrapht.Graph;
 import org.jgrapht.Graphs;
+import org.jgrapht.alg.connectivity.ConnectivityInspector;
 import org.jgrapht.graph.DefaultEdge;
 import org.jgrapht.graph.SimpleGraph;
+import org.jgrapht.traverse.BreadthFirstIterator;
 
 import it.polito.tdp.borders.db.BordersDAO;
 
@@ -52,7 +54,7 @@ public class Model {
 	public String getStampa() {
 	  String s = "";
 	  for(Country c : idMap.values()) {
-		  s+=c.getName()+"\n";
+		  s+=c.getName()+" "+grafo.degreeOf(c) + "\n";
 	  }
 	  
 	  return s;
@@ -68,19 +70,24 @@ public class Model {
 		return result;
 	}
 
-	public List<Country> getNumberOfConnectedComponents() {
+	public int getNumberOfConnectedComponents() {
+		
+		ConnectivityInspector<Country, DefaultEdge> ci = new ConnectivityInspector<Country, DefaultEdge>(grafo);
+		
+		return ci.connectedSets().size();
+	}
+	
+	public List<Country> nazioniConnesse(Country inizio){
 		
 		List<Country> res = new LinkedList<>();
-
-		for (Border b : this.borders) {
-			if (!res.contains(b.getC1())) {
-				res.add(b.getC1());
-			}
-			if (!res.contains(b.getC1())) {
-				res.add(b.getC2());
-			}
-
+		
+		BreadthFirstIterator<Country, DefaultEdge> bfv = new BreadthFirstIterator<Country, DefaultEdge>(grafo);
+		res.add(inizio);
+		
+		while(bfv.hasNext()) {
+			res.add(bfv.next());
 		}
+		
 		return res;
 	}
 
