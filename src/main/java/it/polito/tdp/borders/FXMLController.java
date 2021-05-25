@@ -1,12 +1,14 @@
-
 package it.polito.tdp.borders;
 
 import java.net.URL;
 import java.util.ResourceBundle;
 
+import it.polito.tdp.borders.model.Country;
 import it.polito.tdp.borders.model.Model;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.scene.control.Button;
+import javafx.scene.control.ComboBox;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 
@@ -25,6 +27,34 @@ public class FXMLController {
 
     @FXML // fx:id="txtResult"
     private TextArea txtResult; // Value injected by FXMLLoader
+    
+    @FXML
+    private ComboBox<Country> cBoxNazione;
+
+    @FXML
+    private Button btnStatiRaggiugibili;
+    
+	@FXML
+	void DoStatiRaggiugibili(ActionEvent event) {
+
+		Country c = this.cBoxNazione.getValue();
+
+		if (c == null) {
+			this.txtResult.setText("Scegli una nazione");
+			return;
+		}
+
+		String s = "Stati raggiungibili da: " + c.toString() + "\n";
+
+
+		for (Country y : this.model.nazioniConnesse(c)) {
+			s += y.toString() + "\n ";
+
+		}
+
+		this.txtResult.setText(s);
+
+	}
 
 	@FXML
 	void doCalcolaConfini(ActionEvent event) {
@@ -52,10 +82,13 @@ public class FXMLController {
     void initialize() {
         assert txtAnno != null : "fx:id=\"txtAnno\" was not injected: check your FXML file 'Scene.fxml'.";
         assert txtResult != null : "fx:id=\"txtResult\" was not injected: check your FXML file 'Scene.fxml'.";
+        assert cBoxNazione != null : "fx:id=\"cBoxNazione\" was not injected: check your FXML file 'Scene.fxml'.";
+        assert btnStatiRaggiugibili != null : "fx:id=\"btnStatiRaggiugibili\" was not injected: check your FXML file 'Scene.fxml'.";
 
     }
     
     public void setModel(Model model) {
     	this.model = model;
+    	this.cBoxNazione.getItems().addAll(model.getCountries());
     }
 }

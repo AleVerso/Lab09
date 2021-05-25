@@ -30,12 +30,11 @@ public class Model {
 		this.dao = new BordersDAO();
 		this.idMap = new HashMap<>();
 		this.borders = new LinkedList<>();
+		dao.loadAllCountries(idMap);
 	}
 
 	public void createGraph(int anno) {
 		this.grafo = new SimpleGraph<Country, DefaultEdge>(DefaultEdge.class);
-
-		dao.loadAllCountries(idMap);
 
 		Graphs.addAllVertices(grafo, idMap.values());
 
@@ -81,8 +80,7 @@ public class Model {
 		
 		List<Country> res = new LinkedList<>();
 		
-		BreadthFirstIterator<Country, DefaultEdge> bfv = new BreadthFirstIterator<Country, DefaultEdge>(grafo);
-		res.add(inizio);
+		BreadthFirstIterator<Country, DefaultEdge> bfv = new BreadthFirstIterator<Country, DefaultEdge>(grafo, inizio);
 		
 		while(bfv.hasNext()) {
 			res.add(bfv.next());
